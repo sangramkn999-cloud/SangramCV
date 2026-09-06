@@ -1,0 +1,2301 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description"
+    content="Sangram Kumar Nahak — Senior Engineer at GeoProcess Consulting. 3D remote sensing, LiDAR processing, GIS analysis, photogrammetry, QA/QC, WebGIS and geospatial automation.">
+  <meta name="theme-color" content="#07101a">
+  <title>Sangram Kumar Nahak | Senior GIS & LiDAR Engineer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    :root {
+      --bg: #05080d;
+      --bg2: #09111b;
+      --panel: #0c1621;
+      --panel2: #101d2b;
+      --text: #f5f8fb;
+      --muted: #8d9aaa;
+      --dim: #617083;
+      --line: rgba(255, 255, 255, .09);
+      --line2: rgba(255, 255, 255, .14);
+      --mint: #72f2c2;
+      --blue: #78a9ff;
+      --violet: #a68bff;
+      --danger: #ff9f9f;
+      --max: 1280px;
+      --radius: 24px;
+      --shadow: 0 24px 80px rgba(0, 0, 0, .34);
+      --ease: cubic-bezier(.16, 1, .3, 1);
+    }
+
+    * {
+      box-sizing: border-box
+    }
+
+    html {
+      scroll-behavior: smooth;
+      background: var(--bg)
+    }
+
+    body {
+      margin: 0;
+      color: var(--text);
+      font: 16px/1.7 Inter, system-ui, sans-serif;
+      background:
+        radial-gradient(circle at 10% 0%, rgba(120, 169, 255, .10), transparent 30%),
+        radial-gradient(circle at 90% 15%, rgba(114, 242, 194, .08), transparent 26%),
+        linear-gradient(180deg, #05080d 0%, #07101a 52%, #05080d 100%);
+      overflow-x: hidden
+    }
+
+    body:before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: -2;
+      background-image: linear-gradient(rgba(255, 255, 255, .028) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, .028) 1px, transparent 1px);
+      background-size: 64px 64px;
+      mask-image: linear-gradient(to bottom, #000 0%, #000 55%, transparent 92%)
+    }
+
+    body:after {
+      content: "";
+      position: fixed;
+      inset: -20%;
+      pointer-events: none;
+      z-index: -1;
+      background: radial-gradient(circle at 50% 35%, transparent 35%, rgba(0, 0, 0, .22) 74%, rgba(0, 0, 0, .55) 100%)
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none
+    }
+
+    button {
+      font: inherit
+    }
+
+    img,
+    video {
+      display: block;
+      max-width: 100%
+    }
+
+    .container {
+      width: min(calc(100% - 44px), var(--max));
+      margin-inline: auto
+    }
+
+    .mono {
+      font-family: "DM Mono", monospace
+    }
+
+    /* NAV */
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 50;
+      background: rgba(5, 8, 13, .76);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid transparent;
+      transition: .35s var(--ease)
+    }
+
+    .navbar.scrolled {
+      border-color: var(--line);
+      background: rgba(5, 8, 13, .92)
+    }
+
+    .nav-inner {
+      height: 76px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      font-weight: 800;
+      letter-spacing: -.035em;
+      white-space: nowrap
+    }
+
+    .brand-mark {
+      width: 34px;
+      height: 34px;
+      border-radius: 11px;
+      display: grid;
+      place-items: center;
+      color: #03100b;
+      background: linear-gradient(135deg, var(--mint), var(--blue));
+      box-shadow: 0 0 30px rgba(114, 242, 194, .16)
+    }
+
+    .badge {
+      font: 600 .62rem/1 "DM Mono", monospace;
+      color: #a8b8ff;
+      padding: 7px 9px;
+      border: 1px solid rgba(120, 169, 255, .25);
+      border-radius: 999px;
+      background: rgba(120, 169, 255, .08);
+      letter-spacing: .06em
+    }
+
+    .nav-menu {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      list-style: none;
+      margin: 0;
+      padding: 0
+    }
+
+    .nav-menu a {
+      position: relative;
+      color: #9eabb9;
+      font-size: .84rem;
+      font-weight: 600;
+      padding: 9px 0
+    }
+
+    .nav-menu a:after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 2px;
+      width: 0;
+      height: 2px;
+      border-radius: 2px;
+      background: var(--mint);
+      transition: width .25s var(--ease)
+    }
+
+    .nav-menu a:hover,
+    .nav-menu a.active {
+      color: #fff
+    }
+
+    .nav-menu a:hover:after,
+    .nav-menu a.active:after {
+      width: 100%
+    }
+
+    .nav-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid var(--line2);
+      border-radius: 999px;
+      padding: 10px 14px;
+      font-size: .78rem;
+      font-weight: 700;
+      background: rgba(255, 255, 255, .03);
+      transition: .25s var(--ease)
+    }
+
+    .nav-cta:hover {
+      transform: translateY(-2px);
+      border-color: rgba(114, 242, 194, .42);
+      box-shadow: 0 12px 32px rgba(114, 242, 194, .10)
+    }
+
+    .mobile-toggle {
+      display: none;
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, .03);
+      color: #fff
+    }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      padding: 138px 0 84px;
+      display: grid;
+      grid-template-columns: 1.04fr .96fr;
+      gap: 55px;
+      align-items: center
+    }
+
+    .hero-copy {
+      position: relative;
+      z-index: 3
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      color: var(--mint);
+      font: 600 .7rem/1 "DM Mono", monospace;
+      letter-spacing: .15em;
+      text-transform: uppercase
+    }
+
+    .eyebrow:before {
+      content: "";
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--mint);
+      box-shadow: 0 0 15px var(--mint);
+      animation: pulse 2.1s ease-in-out infinite
+    }
+
+    .hero h1 {
+      font-size: clamp(3.2rem, 7vw, 7rem);
+      line-height: .88;
+      letter-spacing: -.085em;
+      margin: 20px 0 26px;
+      max-width: 760px
+    }
+
+    .hero h1 span {
+      background: linear-gradient(115deg, #fff 0%, #ccd5df 50%, var(--mint) 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent
+    }
+
+    .hero-role {
+      font-size: clamp(1rem, 2vw, 1.3rem);
+      font-weight: 700;
+      color: #b9c7ff;
+      margin-bottom: 18px
+    }
+
+    .hero-desc {
+      max-width: 720px;
+      color: #aab6c5;
+      font-size: 1rem
+    }
+
+    .hero-desc strong {
+      color: #eff5fa
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 28px
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      border-radius: 13px;
+      padding: 12px 16px;
+      font-size: .83rem;
+      font-weight: 800;
+      border: 1px solid var(--line);
+      transition: .28s var(--ease);
+      cursor: pointer
+    }
+
+    .btn:hover {
+      transform: translateY(-3px);
+      border-color: rgba(114, 242, 194, .35)
+    }
+
+    .btn-primary {
+      background: var(--mint);
+      border-color: var(--mint);
+      color: #03100b;
+      box-shadow: 0 18px 45px rgba(114, 242, 194, .12)
+    }
+
+    .btn-primary:hover {
+      box-shadow: 0 18px 60px rgba(114, 242, 194, .20)
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, .035)
+    }
+
+    .mail-dropdown {
+      position: relative;
+      display: inline-flex;
+      z-index: 30
+    }
+
+    .mail-trigger {
+      position: relative
+    }
+
+    .mail-chevron {
+      font-size: .62rem;
+      transition: transform .2s var(--ease)
+    }
+
+    .mail-dropdown.open .mail-chevron {
+      transform: rotate(180deg)
+    }
+
+    .mail-menu {
+      position: absolute;
+      top: calc(100% + 9px);
+      right: 0;
+      min-width: 205px;
+      padding: 7px;
+      border: 1px solid var(--line2);
+      border-radius: 14px;
+      background: rgba(6, 11, 17, .98);
+      backdrop-filter: blur(18px);
+      box-shadow: 0 18px 50px rgba(0, 0, 0, .38);
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-5px) scale(.98);
+      transform-origin: top right;
+      transition: opacity .18s var(--ease), transform .18s var(--ease), visibility .18s
+    }
+
+    .mail-dropdown.open .mail-menu {
+      opacity: 1;
+      visibility: visible;
+      transform: none
+    }
+
+    .mail-menu a {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 11px;
+      border-radius: 9px;
+      color: #aab6c5;
+      font-size: .8rem;
+      font-weight: 600
+    }
+
+    .mail-menu a:hover,
+    .mail-menu a:focus-visible {
+      background: rgba(255, 255, 255, .055);
+      color: #fff
+    }
+
+    .mail-menu a i {
+      width: 16px;
+      text-align: center;
+      color: var(--mint)
+    }
+
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 18px 28px;
+      margin-top: 30px
+    }
+
+    .meta-item {
+      font: .64rem/1.2 "DM Mono", monospace;
+      color: var(--dim);
+      text-transform: uppercase;
+      letter-spacing: .08em
+    }
+
+    .meta-item strong {
+      display: block;
+      color: #dce4ed;
+      font: 600 .78rem/1.3 Inter, sans-serif;
+      margin-top: 6px;
+      letter-spacing: 0;
+      text-transform: none
+    }
+
+    /* ORBIT HERO VISUAL */
+    .visual-wrap {
+      min-height: 590px;
+      display: grid;
+      place-items: center;
+      position: relative;
+      perspective: 1200px
+    }
+
+    .visual {
+      width: min(600px, 100%);
+      aspect-ratio: 1;
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform .25s var(--ease)
+    }
+
+    .halo {
+      position: absolute;
+      inset: 8%;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(114, 242, 194, .055), rgba(120, 169, 255, .025) 47%, transparent 70%);
+      filter: blur(1px)
+    }
+
+    .grid-floor {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 92%;
+      height: 92%;
+      transform: translate(-50%, -50%) rotateX(64deg);
+      border: 1px solid rgba(120, 169, 255, .12);
+      border-radius: 50%;
+      background: repeating-radial-gradient(circle, transparent 0 30px, rgba(120, 169, 255, .055) 31px 32px), repeating-conic-gradient(from 0deg, rgba(120, 169, 255, .05) 0 1deg, transparent 1deg 12deg);
+      opacity: .65
+    }
+
+    .orbit {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      border: 1px solid rgba(114, 242, 194, .22);
+      border-radius: 50%;
+      transform-style: preserve-3d;
+      pointer-events: none
+    }
+
+    .orbit-a {
+      width: 86%;
+      height: 86%;
+      transform: translate(-50%, -50%) rotateX(69deg) rotateZ(0deg);
+      animation: orbitSpin 22s linear infinite
+    }
+
+    .orbit-b {
+      width: 67%;
+      height: 67%;
+      transform: translate(-50%, -50%) rotateX(69deg) rotateZ(18deg);
+      border-color: rgba(120, 169, 255, .18);
+      animation: orbitSpinReverse 17s linear infinite
+    }
+
+    .orbit-c {
+      width: 48%;
+      height: 48%;
+      transform: translate(-50%, -50%) rotateX(69deg) rotateZ(-14deg);
+      border-color: rgba(166, 139, 255, .18);
+      animation: orbitSpin 13s linear infinite
+    }
+
+    .orbit-dot {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--mint);
+      box-shadow: 0 0 14px var(--mint)
+    }
+
+    .orbit-dot.d1 {
+      left: 12%;
+      top: 10%
+    }
+
+    .orbit-dot.d2 {
+      right: 9%;
+      top: 30%;
+      background: var(--blue);
+      box-shadow: 0 0 14px var(--blue)
+    }
+
+    .orbit-dot.d3 {
+      left: 33%;
+      bottom: 7%;
+      background: var(--violet);
+      box-shadow: 0 0 14px var(--violet)
+    }
+
+    .core-glow {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 47%;
+      height: 47%;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(114, 242, 194, .16), rgba(5, 8, 13, .82) 62%, transparent 72%);
+      box-shadow: 0 0 100px rgba(114, 242, 194, .09)
+    }
+
+    .portrait-frame {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 43%;
+      aspect-ratio: 1;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: rgba(7, 12, 18, .88);
+      border: 1px solid rgba(114, 242, 194, .28);
+      box-shadow: 0 0 0 14px rgba(114, 242, 194, .03), 0 0 70px rgba(114, 242, 194, .12);
+      overflow: hidden;
+      z-index: 7
+    }
+
+    .portrait-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: saturate(.95) contrast(1.03);
+      transform: scale(1.02)
+    }
+
+    .portrait-ring {
+      position: absolute;
+      inset: -8%;
+      border-radius: 50%;
+      border: 1px dashed rgba(120, 169, 255, .24);
+      animation: orbitSpinReverse 28s linear infinite
+    }
+
+    .node {
+      position: absolute;
+      z-index: 10;
+      width: 78px;
+      height: 48px;
+      display: grid;
+      place-items: center;
+      border-radius: 15px;
+      border: 1px solid var(--line2);
+      background: rgba(7, 13, 20, .88);
+      backdrop-filter: blur(12px);
+      font: 600 .63rem/1 "DM Mono", monospace;
+      color: #d9e3ed;
+      letter-spacing: .05em;
+      box-shadow: 0 14px 34px rgba(0, 0, 0, .26);
+      animation: nodeFloat 4.5s ease-in-out infinite
+    }
+
+    .node:before {
+      content: "";
+      position: absolute;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--mint);
+      box-shadow: 0 0 14px var(--mint);
+      left: 10px;
+      top: 10px
+    }
+
+    .n1 {
+      left: 9%;
+      top: 9%;
+      animation-delay: -.8s
+    }
+
+    .n2 {
+      right: 8%;
+      top: 34%;
+      animation-delay: -2.2s
+    }
+
+    .n3 {
+      right: 13%;
+      bottom: 10%;
+      animation-delay: -3.2s
+    }
+
+    .n4 {
+      left: 8%;
+      bottom: 27%;
+      animation-delay: -1.5s
+    }
+
+    .float-card {
+      position: absolute;
+      z-index: 11;
+      padding: 12px 14px;
+      border: 1px solid var(--line);
+      border-radius: 15px;
+      background: rgba(8, 14, 21, .82);
+      backdrop-filter: blur(15px);
+      font-size: .7rem;
+      color: #aebac7;
+      box-shadow: var(--shadow)
+    }
+
+    .float-card strong {
+      display: block;
+      color: #fff;
+      margin-bottom: 3px;
+      font-size: .75rem
+    }
+
+    .fc1 {
+      right: 2%;
+      top: 10%
+    }
+
+    .fc2 {
+      left: 1%;
+      bottom: 8%
+    }
+
+    .scan-line {
+      position: absolute;
+      z-index: 8;
+      left: 26%;
+      top: 22%;
+      width: 48%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--mint), transparent);
+      box-shadow: 0 0 16px rgba(114, 242, 194, .35);
+      animation: scan 4.6s ease-in-out infinite
+    }
+
+    /* SECTIONS */
+    .section {
+      padding: 105px 0;
+      border-top: 1px solid var(--line)
+    }
+
+    .section-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 30px;
+      margin-bottom: 38px
+    }
+
+    .section-kicker {
+      color: var(--mint);
+      font: 600 .65rem "DM Mono", monospace;
+      text-transform: uppercase;
+      letter-spacing: .14em
+    }
+
+    .section-title {
+      font-size: clamp(2.2rem, 4.5vw, 4.5rem);
+      line-height: .96;
+      letter-spacing: -.065em;
+      margin: 10px 0 0;
+      max-width: 740px
+    }
+
+    .section-copy {
+      max-width: 570px;
+      color: var(--muted);
+      font-size: .9rem
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-top: 18px
+    }
+
+    .stat {
+      padding: 22px;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      background: linear-gradient(145deg, rgba(16, 29, 43, .84), rgba(7, 12, 18, .84));
+      position: relative;
+      overflow: hidden
+    }
+
+    .stat:after {
+      content: "";
+      position: absolute;
+      width: 130px;
+      height: 130px;
+      right: -65px;
+      bottom: -65px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(114, 242, 194, .11), transparent 68%)
+    }
+
+    .stat-num {
+      font-size: 1.75rem;
+      font-weight: 800;
+      letter-spacing: -.05em
+    }
+
+    .stat-label {
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: .74rem
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 16px
+    }
+
+    .panel {
+      background: linear-gradient(145deg, rgba(16, 29, 43, .88), rgba(7, 12, 18, .9));
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      padding: 28px;
+      box-shadow: 0 18px 60px rgba(0, 0, 0, .16);
+      position: relative;
+      overflow: hidden
+    }
+
+    .panel h3 {
+      font-size: 1.2rem;
+      margin: 0 0 11px;
+      letter-spacing: -.03em
+    }
+
+    .panel p {
+      color: var(--muted);
+      font-size: .9rem;
+      margin: 0
+    }
+
+    .quote {
+      font-size: clamp(1.35rem, 2.4vw, 2.1rem);
+      line-height: 1.08;
+      letter-spacing: -.045em;
+      color: #edf3f7
+    }
+
+    .quote em {
+      color: #7d8b9a;
+      font-style: normal
+    }
+
+    .skill-cloud {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 22px
+    }
+
+    .chip {
+      font: 500 .65rem "DM Mono", monospace;
+      color: #aeb9c7;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, .025);
+      padding: 7px 9px;
+      border-radius: 999px
+    }
+
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 13px
+    }
+
+    .skill-card {
+      min-height: 245px;
+      padding: 25px;
+      border-radius: 22px;
+      border: 1px solid var(--line);
+      background: linear-gradient(145deg, rgba(16, 29, 43, .92), rgba(7, 12, 18, .88));
+      transition: .35s var(--ease);
+      transform-style: preserve-3d
+    }
+
+    .skill-card:hover {
+      transform: translateY(-7px) rotateX(1deg) rotateY(-1deg);
+      border-color: rgba(114, 242, 194, .28);
+      box-shadow: 0 22px 70px rgba(0, 0, 0, .26)
+    }
+
+    .skill-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 13px;
+      display: grid;
+      place-items: center;
+      background: rgba(114, 242, 194, .08);
+      color: var(--mint);
+      border: 1px solid rgba(114, 242, 194, .14)
+    }
+
+    .skill-card h3 {
+      margin: 22px 0 9px;
+      font-size: 1.05rem
+    }
+
+    .skill-card p {
+      color: var(--muted);
+      font-size: .85rem
+    }
+
+    .media-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px
+    }
+
+    .media-card {
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      overflow: hidden;
+      background: var(--panel);
+      transition: .35s var(--ease)
+    }
+
+    .media-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(120, 169, 255, .28);
+      box-shadow: 0 24px 70px rgba(0, 0, 0, .25)
+    }
+
+    .media-card img,
+    .media-card video {
+      width: 100%;
+      height: 225px;
+      object-fit: cover;
+      background: #020407
+    }
+
+    .media-card video {
+      object-position: center
+    }
+
+    .media-body {
+      padding: 20px 21px 22px
+    }
+
+    .media-title {
+      font-size: 1rem;
+      font-weight: 800;
+      margin-bottom: 6px
+    }
+
+    .media-desc {
+      color: var(--muted);
+      font-size: .82rem
+    }
+
+    .experience {
+      position: relative;
+      display: grid;
+      grid-template-columns: .78fr 1.22fr;
+      gap: 58px
+    }
+
+    .experience-intro {
+      position: sticky;
+      top: 110px;
+      align-self: start
+    }
+
+    .experience-intro .big {
+      font-size: clamp(2rem, 4vw, 3.8rem);
+      line-height: 1.03;
+      letter-spacing: -.06em;
+      margin-top: 14px
+    }
+
+    .experience-intro p {
+      color: var(--muted);
+      font-size: .88rem;
+      max-width: 420px;
+      margin-top: 20px
+    }
+
+    .timeline {
+      position: relative;
+      padding-left: 28px
+    }
+
+    .timeline:before {
+      content: "";
+      position: absolute;
+      left: 3px;
+      top: 5px;
+      bottom: 0;
+      width: 1px;
+      background: linear-gradient(var(--mint), rgba(114, 242, 194, .08))
+    }
+
+    .timeline-progress {
+      position: absolute;
+      left: 2px;
+      top: 5px;
+      width: 3px;
+      height: 0;
+      background: var(--mint);
+      box-shadow: 0 0 14px rgba(114, 242, 194, .35);
+      border-radius: 99px;
+      z-index: 1
+    }
+
+    .job {
+      position: relative;
+      padding-bottom: 31px
+    }
+
+    .job:before {
+      content: "";
+      position: absolute;
+      left: -30px;
+      top: 6px;
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      background: var(--bg);
+      border: 2px solid var(--mint);
+      box-shadow: 0 0 0 5px rgba(114, 242, 194, .05), 0 0 20px rgba(114, 242, 194, .25);
+      z-index: 2
+    }
+
+    .job:last-child {
+      padding-bottom: 0
+    }
+
+    .job-card {
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      background: linear-gradient(145deg, rgba(16, 29, 43, .84), rgba(7, 12, 18, .9));
+      padding: 24px;
+      transition: .3s var(--ease)
+    }
+
+    .job-card:hover {
+      border-color: rgba(114, 242, 194, .24);
+      transform: translateX(4px)
+    }
+
+    .job-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      align-items: flex-start
+    }
+
+    .job-company {
+      font-size: 1.08rem;
+      font-weight: 800
+    }
+
+    .job-role {
+      color: var(--mint);
+      font-weight: 700;
+      font-size: .84rem;
+      margin-top: 2px
+    }
+
+    .job-meta {
+      font: 500 .64rem "DM Mono", monospace;
+      color: var(--dim);
+      text-align: right;
+      white-space: nowrap
+    }
+
+    .job-lead {
+      color: #c9d3dd;
+      font-size: .84rem;
+      margin: 14px 0 0
+    }
+
+    .job ul {
+      margin: 14px 0 0;
+      padding-left: 20px;
+      color: var(--muted);
+      font-size: .83rem
+    }
+
+    .job li+li {
+      margin-top: 7px
+    }
+
+    .source-note {
+      color: var(--dim);
+      font-size: .68rem;
+      margin-top: 10px
+    }
+
+    .team-grid,
+    .education-grid,
+    .contact-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px
+    }
+
+    .management-card {
+      padding: 26px;
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      background: linear-gradient(145deg, rgba(16, 29, 43, .9), rgba(7, 12, 18, .88))
+    }
+
+    .management-card h3 {
+      margin: 0 0 10px;
+      font-size: 1.05rem
+    }
+
+    .management-card p {
+      color: var(--muted);
+      font-size: .85rem
+    }
+
+    .management-card .pill-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-top: 18px
+    }
+
+    .pill {
+      font: 500 .62rem "DM Mono", monospace;
+      color: #aab6c4;
+      border: 1px solid var(--line);
+      padding: 6px 8px;
+      border-radius: 999px
+    }
+
+    .edu-card {
+      padding: 25px;
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      background: linear-gradient(145deg, rgba(16, 29, 43, .9), rgba(7, 12, 18, .9));
+      position: relative;
+      overflow: hidden
+    }
+
+    .edu-year {
+      color: var(--mint);
+      font: 600 .63rem "DM Mono", monospace
+    }
+
+    .edu-card h3 {
+      margin: 15px 0 3px;
+      font-size: 1.05rem
+    }
+
+    .edu-school {
+      color: #b8c5d2;
+      font-size: .86rem;
+      font-weight: 600
+    }
+
+    .edu-card p {
+      margin: 7px 0 0;
+      color: var(--muted);
+      font-size: .79rem
+    }
+
+    .contact-panel {
+      padding: 42px;
+      border: 1px solid rgba(114, 242, 194, .18);
+      border-radius: 28px;
+      background: radial-gradient(circle at 80% 20%, rgba(114, 242, 194, .08), transparent 35%), linear-gradient(145deg, #101c29, #060b11);
+      position: relative;
+      overflow: hidden
+    }
+
+    .contact-panel:before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, transparent, rgba(114, 242, 194, .04), transparent);
+      transform: translateX(-100%);
+      animation: sweep 6s ease-in-out infinite
+    }
+
+    .contact-grid {
+      position: relative;
+      z-index: 2
+    }
+
+    .contact-copy h2 {
+      font-size: clamp(2.2rem, 5vw, 5rem);
+      line-height: .94;
+      letter-spacing: -.07em;
+      margin: 12px 0 15px
+    }
+
+    .contact-copy p {
+      max-width: 640px;
+      color: var(--muted);
+      font-size: .9rem
+    }
+
+    .contact-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 23px
+    }
+
+    .contact-list {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 10px
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: 15px;
+      background: rgba(255, 255, 255, .025);
+      font-size: .78rem;
+      color: #b9c5d1
+    }
+
+    .contact-item i {
+      color: var(--mint);
+      width: 18px;
+      text-align: center
+    }
+
+    .contact-item span {
+      word-break: break-word
+    }
+
+    .footer {
+      padding: 36px 0;
+      border-top: 1px solid var(--line);
+      color: #657486
+    }
+
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      align-items: center;
+      font: .67rem "DM Mono", monospace;
+      text-transform: uppercase;
+      letter-spacing: .06em
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 18px
+    }
+
+    .footer-links a:hover {
+      color: #fff
+    }
+
+    /* SCROLL MOTION */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity .8s var(--ease), transform .8s var(--ease)
+    }
+
+    .reveal.is-visible {
+      opacity: 1;
+      transform: none
+    }
+
+    .stagger>* {
+      opacity: 0;
+      transform: translateY(24px)
+    }
+
+    .stagger.is-visible>* {
+      opacity: 1;
+      transform: none;
+      transition: opacity .7s var(--ease), transform .7s var(--ease)
+    }
+
+    .stagger.is-visible>*:nth-child(2) {
+      transition-delay: .08s
+    }
+
+    .stagger.is-visible>*:nth-child(3) {
+      transition-delay: .16s
+    }
+
+    .stagger.is-visible>*:nth-child(4) {
+      transition-delay: .24s
+    }
+
+    .stagger.is-visible>*:nth-child(5) {
+      transition-delay: .32s
+    }
+
+    .stagger.is-visible>*:nth-child(6) {
+      transition-delay: .4s
+    }
+
+    .tilt {
+      will-change: transform
+    }
+
+    @keyframes pulse {
+      50% {
+        transform: scale(1.3);
+        opacity: .65
+      }
+    }
+
+    @keyframes orbitSpin {
+      to {
+        transform: translate(-50%, -50%) rotateX(69deg) rotateZ(360deg)
+      }
+    }
+
+    @keyframes orbitSpinReverse {
+      to {
+        transform: translate(-50%, -50%) rotateX(69deg) rotateZ(-360deg)
+      }
+    }
+
+    @keyframes nodeFloat {
+
+      0%,
+      100% {
+        transform: translate3d(0, 0, 0)
+      }
+
+      50% {
+        transform: translate3d(0, -7px, 0)
+      }
+    }
+
+    @keyframes scan {
+
+      0%,
+      100% {
+        transform: translateY(0);
+        opacity: .15
+      }
+
+      45%,
+      55% {
+        transform: translateY(230px);
+        opacity: 1
+      }
+    }
+
+    @keyframes sweep {
+
+      0%,
+      30% {
+        transform: translateX(-100%)
+      }
+
+      55% {
+        transform: translateX(100%)
+      }
+
+      100% {
+        transform: translateX(100%)
+      }
+    }
+
+    @media(max-width:1050px) {
+      .nav-menu {
+        display: none
+      }
+
+      .mobile-toggle {
+        display: block
+      }
+
+      .nav-cta {
+        display: none
+      }
+
+      .hero {
+        grid-template-columns: 1fr;
+        padding-top: 126px
+      }
+
+      .hero-copy {
+        text-align: left
+      }
+
+      .visual-wrap {
+        margin-top: -10px
+      }
+
+      .stats {
+        grid-template-columns: repeat(2, 1fr)
+      }
+
+      .skills-grid {
+        grid-template-columns: repeat(2, 1fr)
+      }
+
+      .media-grid {
+        grid-template-columns: 1fr 1fr
+      }
+
+      .experience {
+        grid-template-columns: 1fr
+      }
+
+      .experience-intro {
+        position: static
+      }
+
+      .experience-intro p {
+        max-width: 680px
+      }
+
+      .about-grid {
+        grid-template-columns: 1fr
+      }
+
+      .team-grid,
+      .education-grid {
+        grid-template-columns: 1fr
+      }
+    }
+
+    @media(max-width:680px) {
+      .container {
+        width: min(calc(100% - 28px), var(--max))
+      }
+
+      .brand {
+        font-size: .87rem
+      }
+
+      .badge {
+        display: none
+      }
+
+      .nav-inner {
+        height: 70px
+      }
+
+      .hero {
+        padding-top: 108px;
+        padding-bottom: 60px
+      }
+
+      .hero h1 {
+        font-size: clamp(3rem, 16vw, 5.2rem)
+      }
+
+      .hero-meta {
+        gap: 15px 22px
+      }
+
+      .visual-wrap {
+        min-height: 390px
+      }
+
+      .visual {
+        width: 100%
+      }
+
+      .node {
+        width: 64px;
+        height: 42px;
+        font-size: .57rem
+      }
+
+      .n1 {
+        left: 5%;
+        top: 7%
+      }
+
+      .n2 {
+        right: 3%;
+        top: 34%
+      }
+
+      .n3 {
+        right: 6%;
+        bottom: 8%
+      }
+
+      .n4 {
+        left: 3%;
+        bottom: 26%
+      }
+
+      .float-card {
+        font-size: .62rem;
+        padding: 9px 10px
+      }
+
+      .fc1 {
+        right: -2%;
+        top: 7%
+      }
+
+      .fc2 {
+        left: -2%;
+        bottom: 5%
+      }
+
+      .section {
+        padding: 76px 0
+      }
+
+      .section-head {
+        display: block
+      }
+
+      .section-copy {
+        margin-top: 16px
+      }
+
+      .stats {
+        grid-template-columns: 1fr 1fr
+      }
+
+      .skills-grid,
+      .media-grid {
+        grid-template-columns: 1fr
+      }
+
+      .job-top {
+        display: block
+      }
+
+      .job-meta {
+        text-align: left;
+        margin-top: 8px
+      }
+
+      .contact-panel {
+        padding: 27px
+      }
+
+      .contact-grid {
+        grid-template-columns: 1fr
+      }
+
+      .footer-inner {
+        display: block
+      }
+
+      .footer-links {
+        margin-top: 12px;
+        flex-wrap: wrap
+      }
+
+      .nav-inner {
+        height: 68px
+      }
+
+      .mobile-toggle {
+        display: grid;
+        place-items: center;
+        width: 38px;
+        height: 38px;
+        border-radius: 10px
+      }
+
+      .desktop-nav,
+      .nav-mail {
+        display: none !important
+      }
+
+      .mobile-menu {
+        display: none;
+        position: absolute;
+        left: 12px;
+        right: 12px;
+        top: 64px;
+        padding: 8px;
+        border: 1px solid var(--line2);
+        border-radius: 15px;
+        background: rgba(6, 11, 17, .985);
+        box-shadow: 0 18px 50px rgba(0, 0, 0, .38);
+        transform-origin: top center
+      }
+
+      .mobile-menu.open {
+        display: block;
+        animation: menuIn .18s var(--ease) both
+      }
+
+      .mobile-menu a {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 11px;
+        color: #a8b4c1;
+        border-radius: 9px;
+        font-size: .87rem
+      }
+
+      .mobile-menu a:hover,
+      .mobile-menu a:focus-visible {
+        background: rgba(255, 255, 255, .05);
+        color: #fff
+      }
+
+      .mobile-menu .menu-divider {
+        height: 1px;
+        background: var(--line);
+        margin: 7px 4px
+      }
+
+      .mobile-mail {
+        display: block !important;
+        margin: 4px
+      }
+
+      .mobile-mail .mail-trigger {
+        width: 100%;
+        justify-content: flex-start;
+        padding: 10px 11px;
+        border-radius: 10px;
+        background: rgba(255, 255, 255, .035)
+      }
+
+      .hero-actions .mail-dropdown {
+        width: auto
+      }
+
+      .hero-actions .mail-menu {
+        min-width: 190px
+      }
+
+      .contact-actions .mail-dropdown {
+        width: 100%
+      }
+
+      .contact-actions .mail-dropdown .btn {
+        width: 100%;
+        justify-content: flex-start
+      }
+
+      .contact-actions .mail-menu {
+        min-width: 220px
+      }
+
+      @keyframes menuIn {
+        from {
+          opacity: 0;
+          transform: translateY(-5px) scale(.98)
+        }
+
+        to {
+          opacity: 1;
+          transform: none
+        }
+      }
+    }
+
+    @media(prefers-reduced-motion:reduce) {
+      html {
+        scroll-behavior: auto
+      }
+
+      .navbar,
+      .btn,
+      .skill-card,
+      .media-card,
+      .job-card {
+        transition: none
+      }
+
+      .reveal,
+      .stagger>* {
+        opacity: 1;
+        transform: none;
+        transition: none
+      }
+
+      .orbit,
+      .node,
+      .portrait-ring,
+      .scan-line,
+      .contact-panel:before,
+      .eyebrow:before {
+        animation: none !important
+      }
+    }
+
+    a:focus-visible,
+    button:focus-visible {
+      outline: 2px solid var(--mint);
+      outline-offset: 4px
+    }
+  </style>
+</head>
+
+<body>
+  <header class="navbar" id="site-nav">
+    <div class="container nav-inner">
+      <a class="brand" href="#top" aria-label="Sangram Kumar Nahak home">
+        <span class="brand-mark"><i class="fa-solid fa-earth-americas"></i></span>
+        <span>Sangram Kumar Nahak</span>
+        <span class="badge">GIS · LiDAR</span>
+      </a>
+      <nav class="desktop-nav" aria-label="Primary navigation">
+        <ul class="nav-menu">
+          <li><a href="#about">About</a></li>
+          <li><a href="#skills">Skills</a></li>
+          <li><a href="#work">Work</a></li>
+          <li><a href="#experience">Experience</a></li>
+          <li><a href="#education">Education</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+      <div class="mail-dropdown nav-mail">
+        <button class="nav-cta mail-trigger" type="button" aria-haspopup="true" aria-expanded="false"><i
+            class="fa-solid fa-paper-plane"></i> Start a conversation <i
+            class="fa-solid fa-chevron-down mail-chevron"></i></button>
+        <div class="mail-menu" role="menu" aria-hidden="true">
+          <a role="menuitem" href="https://mail.google.com/mail/?view=cm&fs=1&to=knsangram9991@gmail.com"
+            target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-google"></i><span>Gmail</span></a>
+          <a role="menuitem" href="https://outlook.live.com/mail/0/deeplink/compose?to=knsangram9991@gmail.com"
+            target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-microsoft"></i><span>Outlook</span></a>
+          <a role="menuitem" href="mailto:knsangram9991@gmail.com"><i class="fa-solid fa-envelope"></i><span>Default
+              mail app</span></a>
+        </div>
+      </div>
+      <button class="mobile-toggle" id="mobile-toggle" aria-label="Open menu" aria-expanded="false"><i
+          class="fa-solid fa-bars"></i></button>
+      <div class="mobile-menu" id="mobile-menu">
+        <div class="menu-divider"></div>
+        <div class="mobile-mail mail-dropdown">
+          <button class="btn btn-primary mail-trigger" type="button" aria-haspopup="true" aria-expanded="false"><i
+              class="fa-solid fa-paper-plane"></i> Email options <i
+              class="fa-solid fa-chevron-down mail-chevron"></i></button>
+          <div class="mail-menu" role="menu" aria-hidden="true">
+            <a role="menuitem" href="https://mail.google.com/mail/?view=cm&fs=1&to=knsangram9991@gmail.com"
+              target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-google"></i><span>Gmail</span></a>
+            <a role="menuitem" href="https://outlook.live.com/mail/0/deeplink/compose?to=knsangram9991@gmail.com"
+              target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-microsoft"></i><span>Outlook</span></a>
+            <a role="menuitem" href="mailto:knsangram9991@gmail.com"><i class="fa-solid fa-envelope"></i><span>Default
+                mail app</span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="container hero" id="about">
+      <div class="hero-copy reveal">
+        <div class="eyebrow">Senior Engineer · GeoProcess Consulting</div>
+        <h1><span>Sangram Kumar</span><br>Nahak</h1>
+        <div class="hero-role">3D Remote Sensing · LiDAR · GIS · QA/QC · WebGIS</div>
+        <p class="hero-desc"><strong>From traditional mapping to billions of airborne spatial points.</strong> Sangram
+          Kumar Nahak is a Senior Engineer at GeoProcess Consulting, with a career focused on 3D remote sensing, LiDAR
+          processing, GIS analysis, surface modeling, photogrammetry, QA/QC and geospatial automation.</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="assets/Sangram_Kumar_Nahak_CV.pdf" download><i
+              class="fa-solid fa-download"></i> Download CV</a>
+          <div class="mail-dropdown">
+            <button class="btn btn-secondary mail-trigger" type="button" aria-haspopup="true" aria-expanded="false"><i
+                class="fa-solid fa-envelope"></i> Email <i class="fa-solid fa-chevron-down mail-chevron"></i></button>
+            <div class="mail-menu" role="menu" aria-hidden="true">
+              <a role="menuitem" href="https://mail.google.com/mail/?view=cm&fs=1&to=knsangram9991@gmail.com"
+                target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-google"></i><span>Gmail</span></a>
+              <a role="menuitem" href="https://outlook.live.com/mail/0/deeplink/compose?to=knsangram9991@gmail.com"
+                target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-microsoft"></i><span>Outlook</span></a>
+              <a role="menuitem" href="mailto:knsangram9991@gmail.com"><i class="fa-solid fa-envelope"></i><span>Default
+                  mail app</span></a>
+            </div>
+          </div>
+          <a class="btn btn-secondary" href="https://www.linkedin.com/in/sangram-kumar-nahak-343548252" target="_blank"
+            rel="noopener noreferrer"><i class="fa-brands fa-linkedin"></i> LinkedIn</a>
+        </div>
+        <div class="hero-meta">
+          <div class="meta-item">Base<strong>Hyderabad, Telangana, India</strong></div>
+          <div class="meta-item">Current<strong>GeoProcess Consulting · Bengaluru</strong></div>
+          <div class="meta-item">International<strong>Qatar · UK infrastructure · international stakeholders</strong>
+          </div>
+        </div>
+      </div>
+
+      <div class="visual-wrap reveal" id="hero-visual-wrap">
+        <div class="visual tilt" id="hero-visual">
+          <div class="halo"></div>
+          <div class="grid-floor"></div>
+          <div class="orbit orbit-a"><span class="orbit-dot d1"></span><span class="orbit-dot d2"></span></div>
+          <div class="orbit orbit-b"><span class="orbit-dot d3"></span></div>
+          <div class="orbit orbit-c"></div>
+          <div class="core-glow"></div>
+          <div class="portrait-ring"></div>
+          <div class="scan-line"></div>
+          <div class="portrait-frame"><img src="assets/profile-photo.png" alt="Portrait of Sangram Kumar Nahak"></div>
+          <div class="node n1">LiDAR</div>
+          <div class="node n2">GIS</div>
+          <div class="node n3">WebGIS</div>
+          <div class="node n4">QA / QC</div>
+          <div class="float-card fc1"><strong>Point Cloud → Decision</strong>Airborne · UAV · corridor data</div>
+          <div class="float-card fc2"><strong>Engineering-ready outputs</strong>DTM · DSM · TIN · volumes</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="profile">
+      <div class="container">
+        <div class="stats reveal stagger">
+          <div class="stat">
+            <div class="stat-num">3D</div>
+            <div class="stat-label">Remote sensing foundation</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num">1.7 yrs</div>
+            <div class="stat-label">Fast-tracked to Team Lead</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num">Qatar</div>
+            <div class="stat-label">On-site international deployment</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num">UK</div>
+            <div class="stat-label">Infrastructure QA/QC exposure</div>
+          </div>
+        </div>
+
+        <div class="about-grid" style="margin-top:14px">
+          <article class="panel reveal">
+            <div class="section-kicker">Profile</div>
+            <div class="quote" style="margin-top:16px">“A rapid trajectory from traditional mapping to
+              <em>pre-processing billions of airborne spatial points</em>—then into technical leadership, WebGIS
+              migration and international delivery.”
+            </div>
+          </article>
+          <article class="panel reveal">
+            <div class="section-kicker">Top skills</div>
+            <div class="skill-cloud"><span class="chip">Canva</span><span class="chip">GIS Modeling</span><span
+                class="chip">GIS Analysis</span><span class="chip">Project Delivery</span><span class="chip">LiDAR
+                QA/QC</span><span class="chip">WebGIS</span></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="skills">
+      <div class="container">
+        <div class="section-head reveal">
+          <div>
+            <div class="section-kicker">Core technical arsenal</div>
+            <h2 class="section-title">End-to-end spatial workflows.</h2>
+          </div>
+          <p class="section-copy">The portfolio below follows the technical areas documented in the CV: powerline and
+            corridor engineering, LiDAR and surface modeling, photogrammetry, QA/QC, WebGIS automation and the
+            production software stack.</p>
+        </div>
+        <div class="skills-grid reveal stagger">
+          <article class="skill-card tilt">
+            <div class="skill-icon"><i class="fa-solid fa-bolt"></i></div>
+            <h3>Powerline & Corridor Engineering</h3>
+            <p>Metadata area separation, centerline creation, PRJ creation, automated catenary analysis, danger-zone
+              identification, zone-line to shape conversion and cartographic map generation.</p>
+            <div class="skill-cloud"><span class="chip">Catenary</span><span class="chip">Danger Zone</span><span
+                class="chip">Centerline</span><span class="chip">CAD</span><span class="chip">Global Mapper</span></div>
+          </article>
+          <article class="skill-card tilt">
+            <div class="skill-icon"><i class="fa-solid fa-cloud"></i></div>
+            <h3>Advanced LiDAR & Surface Modeling</h3>
+            <p>Flight-line matching, trajectory correction, point-cloud registration, ground seed generation, HAG logic
+              and vegetation/building/powerline macro classification.</p>
+            <div class="skill-cloud"><span class="chip">DTM</span><span class="chip">DSM</span><span
+                class="chip">TIN</span><span class="chip">Volumes</span><span class="chip">HAG</span></div>
+          </article>
+          <article class="skill-card tilt">
+            <div class="skill-icon"><i class="fa-solid fa-drone"></i></div>
+            <h3>Photogrammetry & Drone Processing</h3>
+            <p>GCP network optimization, aerial triangulation in Agisoft Metashape, TerraMatch flight-line alignment,
+              seamline editing and orthophoto-to-LAZ colorization.</p>
+            <div class="skill-cloud"><span class="chip">GCP</span><span class="chip">Metashape</span><span
+                class="chip">TerraMatch</span><span class="chip">LAZ</span></div>
+          </article>
+          <article class="skill-card tilt">
+            <div class="skill-icon"><i class="fa-solid fa-shield-halved"></i></div>
+            <h3>QA/QC & Data Governance</h3>
+            <p>LAS/LAZ metadata validation, point-density checks, coordinate-system verification, noise filtering, class
+              statistics and compliance checks against international standards.</p>
+            <div class="skill-cloud"><span class="chip">Validation</span><span class="chip">Filtering</span><span
+                class="chip">Statistics</span><span class="chip">QA/QC</span></div>
+          </article>
+          <article class="skill-card tilt">
+            <div class="skill-icon"><i class="fa-solid fa-code"></i></div>
+            <h3>WebGIS & Automation</h3>
+            <p>Transitioning desktop spatial workflows to cloud-enabled WebGIS portals using Python automation, HTML,
+              CSS and JavaScript for real-time 3D spatial data hosting.</p>
+            <div class="skill-cloud"><span class="chip">Python</span><span class="chip">HTML</span><span
+                class="chip">CSS</span><span class="chip">JavaScript</span></div>
+          </article>
+          <article class="skill-card tilt">
+            <div class="skill-icon"><i class="fa-solid fa-layer-group"></i></div>
+            <h3>Software Platforms</h3>
+            <p>Production experience across desktop GIS, CAD, remote-sensing and productivity tools documented in the
+              CV.</p>
+            <div class="skill-cloud"><span class="chip">MicroStation</span><span class="chip">ArcGIS</span><span
+                class="chip">QGIS</span><span class="chip">Global Mapper</span><span class="chip">AutoCAD</span><span
+                class="chip">Adobe CC</span><span class="chip">Excel</span></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="work">
+      <div class="container">
+        <div class="section-head reveal">
+          <div>
+            <div class="section-kicker">Visual portfolio</div>
+            <h2 class="section-title">Spatial work, in context.</h2>
+          </div>
+          <p class="section-copy">The existing portfolio media is retained and reframed around the documented technical
+            domains.</p>
+        </div>
+        <div class="media-grid reveal stagger">
+          <article class="media-card"><img src="assets/powerline-corridor.jpg" alt="Powerline corridor mapping workflow"
+              loading="lazy">
+            <div class="media-body">
+              <div class="media-title">Powerline Corridor Analysis</div>
+              <div class="media-desc">Centerline, catenary and danger-zone workflows for corridor engineering.</div>
+            </div>
+          </article>
+          <article class="media-card"><img src="assets/dtm-visualization.jpg" alt="DTM terrain visualization"
+              loading="lazy">
+            <div class="media-body">
+              <div class="media-title">DTM / DSM Surface Modeling</div>
+              <div class="media-desc">Bare-earth and surface modeling with breaklines, TINs and volumetric outputs.
+              </div>
+            </div>
+          </article>
+          <article class="media-card"><img src="assets/gis-data-editing.jpg" alt="GIS data editing" loading="lazy">
+            <div class="media-body">
+              <div class="media-title">GIS Data Processing</div>
+              <div class="media-desc">Georeferencing, attribute editing, land partitioning and map production.</div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="videos">
+      <div class="container">
+        <div class="section-head reveal">
+          <div>
+            <div class="section-kicker">Technical walkthroughs</div>
+            <h2 class="section-title">See the workflows move.</h2>
+          </div>
+          <p class="section-copy">Native video demos from the original website package. Playback remains
+            user-controlled.</p>
+        </div>
+        <div class="media-grid reveal stagger">
+          <article class="media-card"><video controls preload="metadata" playsinline
+              poster="assets/powerline-corridor.jpg">
+              <source src="media/lidar-powerline-vegetation-risk.mp4" type="video/mp4">
+            </video>
+            <div class="media-body">
+              <div class="media-title">LiDAR Powerline Vegetation Risk</div>
+              <div class="media-desc">Corridor clearance and vegetation-risk workflow.</div>
+            </div>
+          </article>
+          <article class="media-card"><video controls preload="metadata" playsinline
+              poster="assets/dtm-visualization.jpg">
+              <source src="media/advance-classification-2.mp4" type="video/mp4">
+            </video>
+            <div class="media-body">
+              <div class="media-title">Advanced Classification</div>
+              <div class="media-desc">Point-cloud classification and LiDAR processing workflow.</div>
+            </div>
+          </article>
+          <article class="media-card"><video controls preload="metadata" playsinline
+              poster="assets/gis-data-editing.jpg">
+              <source src="media/Feature Extraction.mp4" type="video/mp4">
+            </video>
+            <div class="media-body">
+              <div class="media-title">Feature Extraction</div>
+              <div class="media-desc">Spatial feature extraction within the remote-sensing workflow.</div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="experience">
+      <div class="container experience">
+        <div class="experience-intro reveal">
+          <div class="section-kicker">Professional journey</div>
+          <div class="big">From mapping production to <span style="color:#657486">technical leadership.</span></div>
+          <p>The experience below is transcribed and structured from the supplied CV. Dates and roles are kept as
+            provided.</p>
+        </div>
+        <div class="timeline" id="timeline">
+          <div class="timeline-progress" id="timeline-progress"></div>
+          <article class="job reveal">
+            <div class="job-card">
+              <div class="job-top">
+                <div>
+                  <div class="job-company">GeoProcess Consulting</div>
+                  <div class="job-role">Senior Engineer</div>
+                </div>
+                <div class="job-meta">MAR 2026 — PRESENT<br>BENGALURU</div>
+              </div>
+              <p class="job-lead">Client-facing and technical delivery role supporting international accounts and
+                internal execution teams.</p>
+              <ul>
+                <li>Managed mid-level client touchpoints, regular project updates and feedback loops across
+                  international accounts.</li>
+                <li>Served as the central liaison between regional client managers and technical execution teams to
+                  align delivery schedules and expectations.</li>
+                <li>Maintained professional digital channels and social media profiles, showcasing completed geospatial
+                  projects, technical insights and team achievements.</li>
+              </ul>
+            </div>
+          </article>
+
+          <article class="job reveal">
+            <div class="job-card">
+              <div class="job-top">
+                <div>
+                  <div class="job-company">Geokno India Private Limited</div>
+                  <div class="job-role">Geographic Information Systems Consultant</div>
+                </div>
+                <div class="job-meta">NOV 2025 — MAR 2026<br>HYDERABAD</div>
+              </div>
+              <p class="job-lead">Worked with international stakeholders to transform complex spatial data into advisory
+                and production solutions.</p>
+              <ul>
+                <li>Tracked team efficiency and schedules for on-time delivery across international client engagements.
+                </li>
+                <li>Executed Survey of India (SOI) workflows including georeferencing, attribute editing, land
+                  partitioning and map production.</li>
+                <li>Executed ground, building, feature and water classification; created breaklines, TINs, volume
+                  surfaces and DTM/DSM outputs for Scan-to-GIS.</li>
+                <li>Managed powerline metadata extraction, centerline creation, catenary analysis, automated danger-zone
+                  identification and CAD/Global Mapper conversions.</li>
+              </ul>
+            </div>
+          </article>
+
+          <article class="job reveal">
+            <div class="job-card">
+              <div class="job-top">
+                <div>
+                  <div class="job-company">ATOMGEO Private Limited</div>
+                  <div class="job-role">Geographic Information Systems Engineer</div>
+                </div>
+                <div class="job-meta">SEP 2025 — NOV 2025</div>
+              </div>
+              <p class="job-lead">Focused on quality assurance and analysis of GIS data as the final technical filter
+                for complex spatial datasets.</p>
+              <ul>
+                <li>Performed LAS/LAZ metadata validation, point-density checks, coordinate-system verification and
+                  class-statistics reporting.</li>
+                <li>Conducted outlier detection, noise removal and spatial discrepancy analysis before client handover
+                  using MicroStation and Microsoft Excel.</li>
+              </ul>
+            </div>
+          </article>
+
+          <article class="job reveal">
+            <div class="job-card">
+              <div class="job-top">
+                <div>
+                  <div class="job-company">Nakshatech Pvt Ltd</div>
+                  <div class="job-role">Geographic Information Systems Engineer</div>
+                </div>
+                <div class="job-meta">AUG 2023 — SEP 2025</div>
+              </div>
+              <p class="job-lead">A high-growth chapter centered on photogrammetry, orthorectification, advanced
+                classification and mentoring engineers.</p>
+              <ul>
+                <li>Processed drone point clouds, optimized GCP networks, applied iterative ground-classification macros
+                  and generated colorized LAZ deliverables via orthophoto alignment in Agisoft Metashape.</li>
+                <li>Authored classification macros for ground, vegetation and buildings; extracted 2D street polygons
+                  and 3D building footprints for UK infrastructure projects.</li>
+                <li>Managed flight-line alignment and classification QA/QC for powerline corridors, including
+                  flight-line matching and trajectory adjustments using TerraMatch.</li>
+              </ul>
+            </div>
+          </article>
+
+          <article class="job reveal">
+            <div class="job-card">
+              <div class="job-top">
+                <div>
+                  <div class="job-company">Khatib &amp; Alami</div>
+                  <div class="job-role">GIS Engineer</div>
+                </div>
+                <div class="job-meta">APR 2024 — DEC 2024<br>QATAR</div>
+              </div>
+              <p class="job-lead">Represented the firm during a 9-month international deployment, working closely with
+                Qatar’s Ministry of Municipality and Environment (MME).</p>
+              <ul>
+                <li>Led airborne LiDAR processing for large-scale urban mapping projects across Qatar, supporting
+                  geometric accuracy and vertical alignment.</li>
+                <li>Conducted advanced strip alignment, point-cloud registration and surface modeling to deliver
+                  client-ready DTM/DSM outputs.</li>
+              </ul>
+            </div>
+          </article>
+
+          <article class="job reveal">
+            <div class="job-card">
+              <div class="job-top">
+                <div>
+                  <div class="job-company">Spectra Engineering Services Ltd.</div>
+                  <div class="job-role">Team Lead</div>
+                </div>
+                <div class="job-meta">MAR 2022 — AUG 2023<br>BENGALURU</div>
+              </div>
+              <p class="job-lead">Fast-tracked to Team Lead in 1.7 years, leading engineering teams and modernizing
+                technical workflows.</p>
+              <ul>
+                <li>Managed project timelines, optimized production workflows and established QA/QC pipelines for
+                  external vector and LiDAR deliverables.</li>
+                <li>Led classification projects covering standing/flowing-water breakline generation, forestry analysis
+                  and WebGIS spatial-data hosting.</li>
+                <li>Forestry work included tree-root, trunk and branch identification.</li>
+              </ul>
+            </div>
+          </article>
+
+          <article class="job reveal">
+            <div class="job-card">
+              <div class="job-top">
+                <div>
+                  <div class="job-company">GEODESY MAPPING SOLUTIONS PRIVATE LIMITED</div>
+                  <div class="job-role">LiDAR Engineer</div>
+                </div>
+                <div class="job-meta">SEP 2021 — MAR 2022<br>INDIA</div>
+              </div>
+              <p class="job-lead">Primary technical liaison for a major UK client, bridging complex 3D point clouds and
+                real-world spatial decisions.</p>
+              <ul>
+                <li>Executed statistical/manual filtering, flight-line matching and noise removal on airborne and drone
+                  datasets for UK infrastructure projects.</li>
+                <li>Represented the organization onsite to showcase 3D point-cloud integration across ArcGIS, Global
+                  Mapper and Google Earth for client decision-making.</li>
+              </ul>
+            </div>
+          </article>
+
+          <article class="job reveal">
+            <div class="job-card">
+              <div class="job-top">
+                <div>
+                  <div class="job-company">Nakshatech Pvt Ltd</div>
+                  <div class="job-role">LiDAR Engineer</div>
+                </div>
+                <div class="job-meta">OCT 2020 — SEP 2021<br>INDIA</div>
+              </div>
+              <p class="job-lead">Professional gateway into high-precision 3D remote sensing, moving from traditional
+                mapping into airborne spatial-data pre-processing.</p>
+              <ul>
+                <li>Handled initial processing, trajectory correction and flight-line matching for airborne and drone
+                  LiDAR datasets across large-scale terrain and narrow corridor mapping projects.</li>
+                <li>Developed foundational macros for ground-seed generation, height-above-ground logic and
+                  low/medium/high vegetation classification using MicroStation and specialized LiDAR software.</li>
+              </ul>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="team-client">
+      <div class="container">
+        <div class="section-head reveal">
+          <div>
+            <div class="section-kicker">Leadership &amp; delivery</div>
+            <h2 class="section-title">Technical work that still needs people.</h2>
+          </div>
+          <p class="section-copy">The CV highlights not only production skills, but also team leadership, client
+            communication, project delivery and stakeholder coordination.</p>
+        </div>
+        <div class="team-grid reveal stagger">
+          <article class="management-card">
+            <h3>Team Leadership</h3>
+            <p>Fast-tracked to Team Lead, with responsibility for project timelines, production workflows, QA/QC
+              pipelines and engineering-team coordination.</p>
+            <div class="pill-group"><span class="pill">Team Lead</span><span class="pill">Workflow
+                Optimization</span><span class="pill">QA/QC</span><span class="pill">Mentoring</span></div>
+          </article>
+          <article class="management-card">
+            <h3>Client Relations &amp; Account Management</h3>
+            <p>Managed client touchpoints, updates, feedback loops and technical communication across international
+              accounts.</p>
+            <div class="pill-group"><span class="pill">Client Updates</span><span class="pill">Feedback
+                Loops</span><span class="pill">Delivery Alignment</span></div>
+          </article>
+          <article class="management-card">
+            <h3>Project Delivery</h3>
+            <p>Tracked team efficiency and schedules, aligning regional client managers with technical execution teams
+              and supporting on-time delivery.</p>
+            <div class="pill-group"><span class="pill">Scheduling</span><span class="pill">Coordination</span><span
+                class="pill">Delivery</span></div>
+          </article>
+          <article class="management-card">
+            <h3>International Stakeholders</h3>
+            <p>Experience includes Qatar’s MME, UK infrastructure clients and international client ecosystems, with
+              onsite technical advisory exposure.</p>
+            <div class="pill-group"><span class="pill">Qatar</span><span class="pill">UK</span><span class="pill">Onsite
+                Advisory</span><span class="pill">Technical Liaison</span></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="education">
+      <div class="container">
+        <div class="section-head reveal">
+          <div>
+            <div class="section-kicker">Education</div>
+            <h2 class="section-title">Academic foundation.</h2>
+          </div>
+          <p class="section-copy">All education entries below are taken from the supplied CV.</p>
+        </div>
+        <div class="education-grid reveal stagger">
+          <article class="edu-card">
+            <div class="edu-year">JUN 2023 — MAR 2025</div>
+            <h3>Master of Computer Applications</h3>
+            <div class="edu-school">Amity University</div>
+          </article>
+          <article class="edu-card">
+            <div class="edu-year">AUG 2016 — MAY 2019</div>
+            <h3>Bachelor of Arts · English Language &amp; Literature</h3>
+            <div class="edu-school">Berhampur University</div>
+          </article>
+          <article class="edu-card">
+            <div class="edu-year">AUG 2014 — APR 2016</div>
+            <h3>12th</h3>
+            <div class="edu-school">Berhampur University</div>
+          </article>
+          <article class="edu-card">
+            <div class="edu-year">AUG 2013 — JAN 2014</div>
+            <h3>10th</h3>
+            <div class="edu-school">Board of Secondary Education, Odisha</div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="contact">
+      <div class="container">
+        <div class="contact-panel reveal">
+          <div class="contact-grid">
+            <div class="contact-copy">
+              <div class="section-kicker">Contact</div>
+              <h2>Work with a geospatial engineer who understands the data.</h2>
+              <p>For LiDAR, GIS, remote sensing, QA/QC, WebGIS or technical delivery discussions, use the channels
+                below.</p>
+              <div class="contact-actions">
+                <div class="mail-dropdown contact-mail">
+                  <button class="btn btn-primary mail-trigger" type="button" aria-haspopup="true"
+                    aria-expanded="false"><i class="fa-solid fa-envelope"></i> knsangram9991@gmail.com <i
+                      class="fa-solid fa-chevron-down mail-chevron"></i></button>
+                  <div class="mail-menu" role="menu" aria-hidden="true">
+                    <a role="menuitem" href="https://mail.google.com/mail/?view=cm&fs=1&to=knsangram9991@gmail.com"
+                      target="_blank" rel="noopener noreferrer"><i
+                        class="fa-brands fa-google"></i><span>Gmail</span></a>
+                    <a role="menuitem"
+                      href="https://outlook.live.com/mail/0/deeplink/compose?to=knsangram9991@gmail.com" target="_blank"
+                      rel="noopener noreferrer"><i class="fa-brands fa-microsoft"></i><span>Outlook</span></a>
+                    <a role="menuitem" href="mailto:knsangram9991@gmail.com"><i
+                        class="fa-solid fa-envelope"></i><span>Default mail app</span></a>
+                  </div>
+                </div>
+                <a class="btn btn-secondary" href="tel:+917873481676"><i class="fa-solid fa-phone"></i> +91
+                  7873481676</a>
+              </div>
+            </div>
+            <div class="contact-list">
+              <a class="contact-item" href="https://www.linkedin.com/in/sangram-kumar-nahak-343548252" target="_blank"
+                rel="noopener noreferrer"><i
+                  class="fa-brands fa-linkedin"></i><span>linkedin.com/in/sangram-kumar-nahak-343548252</span></a>
+              <a class="contact-item" href="https://sangramkn999-cloud.github.io/CV/" target="_blank"
+                rel="noopener noreferrer"><i
+                  class="fa-solid fa-globe"></i><span>sangramkn999-cloud.github.io/CV/</span></a>
+              <a class="contact-item" href="https://geoprocessconsulting.site/" target="_blank"
+                rel="noopener noreferrer"><i class="fa-solid fa-building"></i><span>GeoProcess Consulting</span></a>
+              <div class="contact-item"><i class="fa-solid fa-location-dot"></i><span>Hyderabad, Telangana, India ·
+                  Current role: Bengaluru</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-inner"><span>Sangram Kumar Nahak · Senior Engineer · GeoProcess Consulting · <span
+          id="year"></span></span><span class="footer-links"><a href="#top">Back to top ↑</a><a
+          href="assets/Cover_Letter_Senior_GIS_LiDAR_Engineer.pdf" download>Cover Letter</a></span></div>
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const nav = document.getElementById('site-nav');
+      const toggle = document.getElementById('mobile-toggle');
+      const menu = document.getElementById('mobile-menu');
+      const mobileLinks = menu ? menu.querySelectorAll('a') : [];
+      const navLinks = [...document.querySelectorAll('.nav-menu a')];
+      const sections = [...document.querySelectorAll('main section[id]')];
+      const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      const onScroll = () => {
+        nav.classList.toggle('scrolled', window.scrollY > 16);
+        let current = 'about';
+        const y = window.scrollY + 160;
+        sections.forEach(s => {if (y >= s.offsetTop) current = s.id});
+        navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + current));
+      };
+      window.addEventListener('scroll', onScroll, {passive: true}); onScroll();
+
+      if (toggle && menu) {
+        toggle.addEventListener('click', () => {const open = menu.classList.toggle('open'); toggle.setAttribute('aria-expanded', String(open)); toggle.innerHTML = open ? '<i class="fa-solid fa-xmark"></i>' : '<i class="fa-solid fa-bars"></i>'});
+        mobileLinks.forEach(a => a.addEventListener('click', () => {menu.classList.remove('open'); toggle.setAttribute('aria-expanded', 'false'); toggle.innerHTML = '<i class="fa-solid fa-bars"></i>'}));
+      }
+
+      // Mail provider dropdowns
+      const closeMailMenus = (except = null) => document.querySelectorAll('.mail-dropdown.open').forEach(drop => {if (drop !== except) {drop.classList.remove('open'); const t = drop.querySelector('.mail-trigger'); const m = drop.querySelector('.mail-menu'); if (t) t.setAttribute('aria-expanded', 'false'); if (m) m.setAttribute('aria-hidden', 'true')} });
+      document.querySelectorAll('.mail-dropdown').forEach(drop => {
+        const trigger = drop.querySelector('.mail-trigger'); const menu = drop.querySelector('.mail-menu');
+        if (!trigger || !menu) return;
+        trigger.addEventListener('click', e => {e.stopPropagation(); const isOpen = drop.classList.contains('open'); closeMailMenus(drop); drop.classList.toggle('open', !isOpen); trigger.setAttribute('aria-expanded', String(!isOpen)); menu.setAttribute('aria-hidden', String(isOpen));});
+        menu.querySelectorAll('a[role="menuitem"]').forEach(item => item.addEventListener('click', () => {closeMailMenus(); if (menu.closest('#mobile-menu')) {menu.closest('#mobile-menu').classList.remove('open'); toggle.setAttribute('aria-expanded', 'false'); toggle.innerHTML = '<i class="fa-solid fa-bars"></i>'} }));
+      });
+      document.addEventListener('click', () => closeMailMenus());
+      document.addEventListener('keydown', e => {if (e.key === 'Escape') closeMailMenus()});
+
+      document.querySelectorAll('a[href^="#"]').forEach(a => a.addEventListener('click', e => {
+        const id = a.getAttribute('href'); if (!id || id === '#') return; const target = document.querySelector(id); if (!target) return;
+        e.preventDefault(); const offset = nav.offsetHeight + 10; window.scrollTo({top: target.getBoundingClientRect().top + window.scrollY - offset, behavior: prefersReduced ? 'auto' : 'smooth'});
+      }));
+
+      const revealEls = document.querySelectorAll('.reveal,.stagger');
+      if ('IntersectionObserver' in window && !prefersReduced) {
+        const ro = new IntersectionObserver(entries => entries.forEach(entry => {if (entry.isIntersecting) {entry.target.classList.add('is-visible'); ro.unobserve(entry.target)} }), {threshold: .10, rootMargin: '0px 0px -40px 0px'});
+        revealEls.forEach(el => ro.observe(el));
+      } else revealEls.forEach(el => el.classList.add('is-visible'));
+
+      const visual = document.getElementById('hero-visual');
+      const wrap = document.getElementById('hero-visual-wrap');
+      if (visual && wrap && !prefersReduced && window.matchMedia('(pointer:fine)').matches) {
+        let raf = 0;
+        wrap.addEventListener('pointermove', e => {cancelAnimationFrame(raf); raf = requestAnimationFrame(() => {const r = wrap.getBoundingClientRect(); const x = (e.clientX - r.left) / r.width - .5; const y = (e.clientY - r.top) / r.height - .5; visual.style.transform = `rotateX(${(-y * 5).toFixed(2)}deg) rotateY(${(x * 7).toFixed(2)}deg)`})});
+        wrap.addEventListener('pointerleave', () => {visual.style.transform = 'rotateX(0deg) rotateY(0deg)'});
+      }
+
+      // Lightweight pointer tilt for cards — no framework required.
+      if (!prefersReduced && window.matchMedia('(pointer:fine)').matches) {
+        document.querySelectorAll('.tilt.skill-card').forEach(card => {
+          card.addEventListener('pointermove', e => {const r = card.getBoundingClientRect(); const x = (e.clientX - r.left) / r.width - .5; const y = (e.clientY - r.top) / r.height - .5; card.style.transform = `translateY(-7px) rotateX(${(-y * 3).toFixed(2)}deg) rotateY(${(x * 3).toFixed(2)}deg)`});
+          card.addEventListener('pointerleave', () => card.style.transform = '');
+        });
+      }
+
+      const timeline = document.getElementById('timeline'); const progress = document.getElementById('timeline-progress');
+      const updateTimeline = () => {if (!timeline || !progress) return; const r = timeline.getBoundingClientRect(); const vh = window.innerHeight; const amount = Math.min(r.height, Math.max(0, vh * .55 - r.top)); progress.style.height = amount + 'px'};
+      window.addEventListener('scroll', updateTimeline, {passive: true}); window.addEventListener('resize', updateTimeline); updateTimeline();
+
+      const year = document.getElementById('year'); if (year) year.textContent = new Date().getFullYear();
+    });
+  </script>
+</body>
+
+</html>
